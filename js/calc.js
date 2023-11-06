@@ -190,12 +190,11 @@ function calcHash() {
         }
         // log('Encoded: ' + Module.UTF8ToString(encoded));
         log(
-            'Hash: ' +
-                hashArr
-                    .map(function (b) {
-                        return ('0' + (0xff & b).toString(16)).slice(-2);
-                    })
-                    .join('')
+            hashArr
+                .map(function (b) {
+                    return ('0' + (0xff & b).toString(16)).slice(-2);
+                })
+                .join('')
         );
         // log('Elapsed: ' + Math.round(elapsed) + 'ms');
     } else {

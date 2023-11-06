@@ -52,3 +52,18 @@ function clearLog() {
     logTs = performance.now();
     document.getElementById('txtRes').value = '';
 }
+
+document.getElementById('copyButton').addEventListener('click', function() {
+    // Get the text value from the input field
+    const copyText = document.getElementById('txtRes');
+
+    // Select the text in the input field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the selected text to the clipboard
+    document.execCommand('copy');
+
+    // Optionally, you can provide user feedback that the text has been copied
+    // alert('Copied to clipboard: ' + copyText.value);
+});
