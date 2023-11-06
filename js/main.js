@@ -6,16 +6,6 @@ document.getElementById('frm').addEventListener('submit', function (e) {
 document
     .getElementById('btnCalcWasm')
     .addEventListener('click', calc(calcWasm));
-document
-    .getElementById('btnCalcWasmWorker')
-    .addEventListener('click', function () {
-        calcWorker('wasm');
-    });
-document
-    .getElementById('btnCalcWasmSimd')
-    .addEventListener('click', function () {
-        calcWorker('simd');
-    });
 
 function loadScript(src, onload, onerror) {
     var el = document.createElement('script');
@@ -23,31 +13,6 @@ function loadScript(src, onload, onerror) {
     el.onload = onload;
     el.onerror = onerror;
     document.body.appendChild(el);
-}
-
-var worker;
-function calcWorker(method) {
-    clearLog();
-    if (worker) {
-        if (worker.method === method) {
-            // log('Using loaded worker');
-            worker.postMessage({ calc: method, arg: getArg() });
-            return;
-        } else {
-            worker.terminate();
-        }
-    }
-    // log('Starting worker...');
-    worker = new Worker('js/worker.js');
-    worker.method = method;
-    var loaded = false;
-    worker.onmessage = function (e) {
-        log(e.data.msg);
-        if (!loaded) {
-            loaded = true;
-            worker.postMessage({ calc: method, arg: getArg() });
-        }
-    };
 }
 
 function getArg() {
