@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Argon2 calculator</title>
@@ -13,81 +14,87 @@
     <meta name="msapplication-TileColor" content="#405158">
     <meta name="msapplication-config" content="icon/browserconfig.xml">
     <meta name="theme-color" content="#405158">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
+
 <body>
-<div class="container">
-    <h1>Argon2 calculator</h1>
-    <form class="form-horizontal" id="frm">
-        <div class="form-group">
-            <label for="txtPassword" class="col-sm-2 control-label">Input</label>
-            <div class="col-sm-10"><input type="text" class="form-control" id="txtPassword" placeholder="input" /></div>
-        </div>
-
-        <div class="form-group">
-            <label for="txtSalt" class="col-sm-2 control-label">Salt</label>
-            <div class="col-sm-10"><input type="text" class="form-control" id="txtSalt" placeholder="somesalt" /></div>
-        </div>
-
-        <div class="form-group" hidden>
-            <label for="txtMem" class="col-sm-2 control-label">Memory</label>
-            <div class="col-sm-10">
-                <div class="input-group">
-                    <input type="number" class="form-control" id="txtMem" placeholder="2048" />
-                    <div class="input-group-addon">KiB</div>
+    <div class="container">
+        <h1>Argon2 calculator</h1>
+        <form class="form-horizontal" id="frm">
+            <div class="form-group">
+                <label for="txtPassword" class="col-sm-2 control-label">Input</label>
+                <div class="col-sm-10"><input type="text" class="form-control" id="txtPassword" placeholder="input" />
                 </div>
             </div>
-        </div>
 
-        <div class="form-group" hidden>
-            <label for="txtIt" class="col-sm-2 control-label">Iterations</label>
-            <div class="col-sm-10"><input type="number" class="form-control" id="txtIt" value="2" /></div>
-        </div>
-
-        <div class="form-group" hidden>
-            <label for="txtLen" class="col-sm-2 control-label">Hash length</label>
-            <div class="col-sm-10"><input type="number" class="form-control" id="txtLen" value="12" /></div>
-        </div>
-
-        <div class="form-group" hidden>
-            <label for="txtPar" class="col-sm-2 control-label">Parallelism</label>
-            <div class="col-sm-10"><input type="number" class="form-control" id="txtPar" value="2" /></div>
-        </div>
-
-        <div class="form-group" hidden>
-            <label class="col-sm-2 control-label">Type</label>
-            <div class="col-sm-10">
-                <label class="radio-inline">
-                    <input type="radio" name="radioType" id="inlineRadio0" value="0"> Argon2d
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="radioType" id="inlineRadio1" value="1"> Argon2i
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="radioType" id="inlineRadio2" value="2" checked> Argon2di
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-10 col-sm-offset-2">
-                <button type="submit" id="btnCalcWasm" class="btn btn-primary">Calculate</button>
+            <div class="form-group">
+                <label for="txtSalt" class="col-sm-2 control-label">Salt</label>
+                <div class="col-sm-10"><input type="text" class="form-control" id="txtSalt" placeholder="somesalt" />
                 </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Result</label>
-            <div class="col-sm-8">
-                <input class="form-control" id="txtRes" rows="30" readonly style="resize: none; font-family: monospace"></input>
             </div>
-            <button class="col-sm-2 btn btn-secondary" id="copyButton" >Copy</button>
-        </div>
-    </form>
-</div>
 
-<script src="js/calc.js"></script>
-<script src="js/main.js"></script>
-<script src="js/text-encoder-lite.min.js"></script>
+            <div class="form-group" hidden>
+                <label for="txtMem" class="col-sm-2 control-label">Memory</label>
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="txtMem" placeholder="2048" />
+                        <div class="input-group-addon">KiB</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" hidden>
+                <label for="txtIt" class="col-sm-2 control-label">Iterations</label>
+                <div class="col-sm-10"><input type="number" class="form-control" id="txtIt" value="2" /></div>
+            </div>
+
+            <div class="form-group" hidden>
+                <label for="txtLen" class="col-sm-2 control-label">Hash length</label>
+                <div class="col-sm-10"><input type="number" class="form-control" id="txtLen" value="12" /></div>
+            </div>
+
+            <div class="form-group" hidden>
+                <label for="txtPar" class="col-sm-2 control-label">Parallelism</label>
+                <div class="col-sm-10"><input type="number" class="form-control" id="txtPar" value="2" /></div>
+            </div>
+
+            <div class="form-group" hidden>
+                <label class="col-sm-2 control-label">Type</label>
+                <div class="col-sm-10">
+                    <label class="radio-inline">
+                        <input type="radio" name="radioType" id="inlineRadio0" value="0"> Argon2d
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radioType" id="inlineRadio1" value="1"> Argon2i
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radioType" id="inlineRadio2" value="2" checked> Argon2di
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" id="btnCalcWasm" class="btn btn-primary">Calculate</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Result</label>
+                <div class="col-sm-8">
+                    <input class="form-control" id="txtRes" rows="30" readonly
+                        style="resize: none; font-family: monospace"></input>
+                </div>
+                <button class="col-sm-2 btn btn-secondary" id="copyButton">Copy</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="js/calc.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/text-encoder-lite.min.js"></script>
 
 </body>
+
 </html>
