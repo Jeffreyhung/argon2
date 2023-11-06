@@ -30,19 +30,19 @@ function calcWorker(method) {
     clearLog();
     if (worker) {
         if (worker.method === method) {
-            log('Using loaded worker');
+            // log('Using loaded worker');
             worker.postMessage({ calc: method, arg: getArg() });
             return;
         } else {
             worker.terminate();
         }
     }
-    log('Starting worker...');
+    // log('Starting worker...');
     worker = new Worker('js/worker.js');
     worker.method = method;
     var loaded = false;
     worker.onmessage = function (e) {
-        log(e.data.msg);
+        // log(e.data.msg);
         if (!loaded) {
             loaded = true;
             worker.postMessage({ calc: method, arg: getArg() });
@@ -72,7 +72,7 @@ function log(msg) {
     var elapsedMs = Math.round(performance.now() - logTs);
     var elapsedSec = (elapsedMs / 1000).toFixed(3);
     var elapsed = leftPad(elapsedSec, 6);
-    txtRes.value += (txtRes.value ? '\n' : '') + '[' + elapsed + '] ' + msg;
+    txtRes.value += (txtRes.value ? '\n' : '') + msg;
 }
 
 function leftPad(str, len) {

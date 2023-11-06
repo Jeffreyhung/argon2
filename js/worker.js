@@ -40,4 +40,4 @@ if (navigator.userAgent.indexOf('Edge') >= 0) {
     importScripts('text-encoder-lite.min.js');
 }
 importScripts('calc.js');
-self.postMessage({ msg: 'Worker started' });
+// self.postMessage({ msg: 'Worker started' });
