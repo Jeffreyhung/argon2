@@ -34,13 +34,13 @@ function calcBinaryen(method, options) {
 
     const mem = getArg().mem;
 
-    log('Testing Argon2 using Binaryen ' + method);
+    // log('Testing Argon2 using Binaryen ' + method);
     if (
         global.Module &&
         global.Module.wasmJSMethod === method &&
         global.Module._argon2_hash_ext
     ) {
-        log('Calculating hash...');
+        // log('Calculating hash...');
         setTimeout(calcHash, 10);
         return;
     }
@@ -55,14 +55,14 @@ function calcBinaryen(method, options) {
         Math.max(Math.ceil((mem * 1024) / WASM_PAGE_SIZE), 256) + 256,
         totalMemory
     );
-    log(
-        'Memory: ' +
-            initialMemory +
-            ' pages (' +
-            Math.round(initialMemory * 64) +
-            ' KB)',
-        totalMemory
-    );
+    // log(
+    //     'Memory: ' +
+    //         initialMemory +
+    //         ' pages (' +
+    //         Math.round(initialMemory * 64) +
+    //         ' KB)',
+    //     totalMemory
+    // );
     const wasmMemory = new WebAssembly.Memory({
         initial: initialMemory,
         maximum: totalMemory,
@@ -84,7 +84,7 @@ function calcBinaryen(method, options) {
         wasmFileName = 'argon2-simd.wasm';
     }
 
-    log('Loading wasm...');
+    // log('Loading wasm...');
     var xhr = new XMLHttpRequest();
     xhr.open('GET', root + 'dist/' + wasmFileName, true);
     xhr.responseType = 'arraybuffer';
@@ -92,12 +92,12 @@ function calcBinaryen(method, options) {
         global.Module.wasmBinary = xhr.response;
         global.Module.postRun = calcHash;
         var ts = now();
-        log('Wasm loaded, loading script...');
+        // log('Wasm loaded, loading script...');
         loadScript(
             root + 'dist/argon2.js',
             function () {
-                log('Script loaded in ' + Math.round(now() - ts) + 'ms');
-                log('Calculating hash...');
+                // log('Script loaded in ' + Math.round(now() - ts) + 'ms');
+                // log('Calculating hash...');
             },
             function () {
                 log('Error loading script');
@@ -115,14 +115,14 @@ function calcHash() {
     if (!Module._argon2_hash_ext) {
         return log('Error');
     }
-    log(
-        'Params: ' +
-            Object.keys(arg)
-                .map(function (key) {
-                    return key + '=' + arg[key];
-                })
-                .join(', ')
-    );
+    // log(
+    //     'Params: ' +
+    //         Object.keys(arg)
+    //             .map(function (key) {
+    //                 return key + '=' + arg[key];
+    //             })
+    //             .join(', ')
+    // );
     var dt = now();
     var t_cost = (arg && arg.time) || 10;
     var m_cost = (arg && arg.mem) || 1024;
@@ -188,7 +188,7 @@ function calcHash() {
         for (var i = hash; i < hash + hashlen; i++) {
             hashArr.push(Module.HEAP8[i]);
         }
-        log('Encoded: ' + Module.UTF8ToString(encoded));
+        // log('Encoded: ' + Module.UTF8ToString(encoded));
         log(
             'Hash: ' +
                 hashArr
@@ -197,7 +197,7 @@ function calcHash() {
                     })
                     .join('')
         );
-        log('Elapsed: ' + Math.round(elapsed) + 'ms');
+        // log('Elapsed: ' + Math.round(elapsed) + 'ms');
     } else {
         try {
             if (!err) {

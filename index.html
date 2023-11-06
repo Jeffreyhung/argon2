@@ -21,42 +21,42 @@
             <div class="col-sm-10"><input type="text" class="form-control" id="txtSalt" placeholder="somesalt" /></div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" hidden>
             <label for="txtMem" class="col-sm-2 control-label">Memory</label>
             <div class="col-sm-10">
                 <div class="input-group">
-                    <input type="number" class="form-control" id="txtMem" placeholder="1024" />
+                    <input type="number" class="form-control" id="txtMem" placeholder="2048" />
                     <div class="input-group-addon">KiB</div>
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" hidden>
             <label for="txtIt" class="col-sm-2 control-label">Iterations</label>
-            <div class="col-sm-10"><input type="number" class="form-control" id="txtIt" placeholder="1" /></div>
+            <div class="col-sm-10"><input type="number" class="form-control" id="txtIt" placeholder="2" /></div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" hidden>
             <label for="txtLen" class="col-sm-2 control-label">Hash length</label>
-            <div class="col-sm-10"><input type="number" class="form-control" id="txtLen" placeholder="32" /></div>
+            <div class="col-sm-10"><input type="number" class="form-control" id="txtLen" placeholder="16" /></div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" hidden>
             <label for="txtPar" class="col-sm-2 control-label">Parallelism</label>
-            <div class="col-sm-10"><input type="number" class="form-control" id="txtPar" placeholder="1" /></div>
+            <div class="col-sm-10"><input type="number" class="form-control" id="txtPar" placeholder="2" /></div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" hidden>
             <label class="col-sm-2 control-label">Type</label>
             <div class="col-sm-10">
                 <label class="radio-inline">
-                    <input type="radio" name="radioType" id="inlineRadio0" value="0" checked> Argon2d
+                    <input type="radio" name="radioType" id="inlineRadio0" value="0"> Argon2d
                 </label>
                 <label class="radio-inline">
                     <input type="radio" name="radioType" id="inlineRadio1" value="1"> Argon2i
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="radioType" id="inlineRadio2" value="2"> Argon2di
+                    <input type="radio" name="radioType" id="inlineRadio2" value="2" checked> Argon2di
                 </label>
             </div>
         </div>
@@ -66,7 +66,6 @@
                 <button type="submit" id="btnCalcWasm" class="btn btn-primary">Run WebAssembly</button>
                 <button type="submit" id="btnCalcWasmWorker" class="btn btn-primary">Run WebAssembly in WebWorker</button>
                 <button type="submit" id="btnCalcWasmSimd" class="btn btn-primary">WebAssembly+SIMD</button>
-                <a class="btn btn-default" href="https://github.com/antelle/argon2-browser">GitHub Repo</a>
             </div>
         </div>
 
