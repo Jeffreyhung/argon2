@@ -42,7 +42,7 @@ function calcWorker(method) {
     worker.method = method;
     var loaded = false;
     worker.onmessage = function (e) {
-        // log(e.data.msg);
+        log(e.data.msg);
         if (!loaded) {
             loaded = true;
             worker.postMessage({ calc: method, arg: getArg() });
