@@ -1,0 +1,14 @@
+.navbar.navbar-inverse.header {
+    background-color: #405158;
+    border-color: #405158;
+}
+
+.navbar-brand.header-title {
+    color:aliceblue;
+}
+
+.btn.btn-primary.calculate {
+    background-color: #405158;
+    color:aliceblue;
+    border-color: #405158;
+}

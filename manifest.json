@@ -3,7 +3,7 @@
     "short_name": "Argon2",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#f9f9f9d",
+    "background_color": "#405158",
     "theme_color": "#cfdbdb",
     "icons": [
         {
