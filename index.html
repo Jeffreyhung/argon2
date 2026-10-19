@@ -3,123 +3,126 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Argon2 calculator</title>
-
-    <!-- Webapp manifest and icons -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" sizes="180x180" href="icon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="icon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="icon/favicon-16x16.png">
-    <link rel="manifest" href="icon/site.webmanifest">
-    <link rel="mask-icon" href="icon/safari-pinned-tab.svg" color="#405158">
-    <link rel="shortcut icon" href="icon/favicon.ico">
-    <meta name="msapplication-TileColor" content="#405158">
-    <meta name="msapplication-config" content="icon/browserconfig.xml">
-    <meta name="theme-color" content="#405158">
-
-    <!-- styleing -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/custom.css">
-
-    <!-- CSP -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'none';
         script-src 'self' 'unsafe-eval';
-        style-src 'self' 'unsafe-inline';
+        worker-src 'self';
+        style-src 'self';
         img-src 'self';
         manifest-src 'self';
-        font-src 'self';
         connect-src 'self';
+        base-uri 'none';
+        form-action 'none';
     ">
+    <title>Argon2 Calculator</title>
+    <meta name="description" content="Derive an Argon2 hash from an input and a salt, entirely in your browser.">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#405158">
 
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icon/apple-touch-icon.png">
+    <link rel="mask-icon" href="icon/safari-pinned-tab.svg" color="#405158">
+    <meta name="msapplication-TileColor" content="#405158">
+    <meta name="msapplication-config" content="icon/browserconfig.xml">
 
+    <link rel="stylesheet" href="css/app.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse header">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand header-title">Argon2 Calculator</a>
-            </div>
+    <header class="header">
+        <div class="header__inner">
+            <h1>Argon2 Calculator</h1>
+            <p class="header__tagline">Runs entirely in your browser</p>
         </div>
-    </nav>
+    </header>
 
-    <div class="container">
-        <form class="form-horizontal" id="frm">
-            <div class="form-group">
-                <label for="txtPassword" class="col-sm-2 control-label">Input</label>
-                <div class="col-sm-10"><input type="text" class="form-control" id="txtPassword" placeholder="input" />
+    <main>
+        <form class="card" id="frm" novalidate autocomplete="off">
+            <div class="field">
+                <label for="txtPassword">Input</label>
+                <div class="input-row">
+                    <input type="password" id="txtPassword" placeholder="Text to hash"
+                        spellcheck="false" autocapitalize="off" autocorrect="off">
+                    <button type="button" class="btn" id="btnToggle" aria-pressed="false"
+                        aria-controls="txtPassword">Show</button>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="txtSalt" class="col-sm-2 control-label">Salt</label>
-                <div class="col-sm-10"><input type="text" class="form-control" id="txtSalt" placeholder="somesalt" />
-                </div>
+            <div class="field">
+                <label for="txtSalt">Salt</label>
+                <input type="text" id="txtSalt" placeholder="somesalt" spellcheck="false" autocapitalize="off"
+                    autocorrect="off">
+                <span class="field__hint">Left blank, the salt is <code>somesalt</code>. Argon2 needs at least 8
+                    bytes.</span>
             </div>
 
-            <div class="form-group" hidden>
-                <label for="txtMem" class="col-sm-2 control-label">Memory</label>
-                <div class="col-sm-10">
-                    <div class="input-group">
-                        <input type="number" class="form-control" id="txtMem" placeholder="2048" />
-                        <div class="input-group-addon">KiB</div>
+            <details id="advanced">
+                <summary><span class="summary__label">Advanced parameters</span><span class="summary__hint" id="advancedHint"></span></summary>
+                <div class="advanced__body">
+                    <div class="grid">
+                        <div class="field">
+                            <label for="txtMem">Memory (KiB)</label>
+                            <input type="number" id="txtMem" min="8" step="1" inputmode="numeric">
+                        </div>
+                        <div class="field">
+                            <label for="txtIt">Iterations</label>
+                            <input type="number" id="txtIt" min="1" step="1" inputmode="numeric">
+                        </div>
+                        <div class="field">
+                            <label for="txtPar">Parallelism</label>
+                            <input type="number" id="txtPar" min="1" step="1" inputmode="numeric">
+                        </div>
+                        <div class="field">
+                            <label for="txtLen">Hash length (bytes)</label>
+                            <input type="number" id="txtLen" min="4" step="1" inputmode="numeric">
+                        </div>
+                    </div>
+
+                    <fieldset class="field variant">
+                        <legend class="label">Variant</legend>
+                        <div class="segmented">
+                            <label><input type="radio" name="radioType" value="0"><span>Argon2d</span></label>
+                            <label><input type="radio" name="radioType" value="1"><span>Argon2i</span></label>
+                            <label><input type="radio" name="radioType" value="2" checked><span>Argon2id</span></label>
+                        </div>
+                    </fieldset>
+
+                    <div class="advanced__actions">
+                        <button type="button" class="btn btn--link" id="btnReset">Reset to defaults</button>
                     </div>
                 </div>
-            </div>
+            </details>
 
-            <div class="form-group" hidden>
-                <label for="txtIt" class="col-sm-2 control-label">Iterations</label>
-                <div class="col-sm-10"><input type="number" class="form-control" id="txtIt" value="2" /></div>
-            </div>
+            <button type="submit" id="btnCalc" class="btn btn--primary">Calculate</button>
 
-            <div class="form-group" hidden>
-                <label for="txtLen" class="col-sm-2 control-label">Hash length</label>
-                <div class="col-sm-10"><input type="number" class="form-control" id="txtLen" value="12" /></div>
-            </div>
+            <hr class="divider">
 
-            <div class="form-group" hidden>
-                <label for="txtPar" class="col-sm-2 control-label">Parallelism</label>
-                <div class="col-sm-10"><input type="number" class="form-control" id="txtPar" value="2" /></div>
-            </div>
-
-            <div class="form-group" hidden>
-                <label class="col-sm-2 control-label">Type</label>
-                <div class="col-sm-10">
-                    <label class="radio-inline">
-                        <input type="radio" name="radioType" id="inlineRadio0" value="0"> Argon2d
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="radioType" id="inlineRadio1" value="1"> Argon2i
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="radioType" id="inlineRadio2" value="2" checked> Argon2di
-                    </label>
+            <div class="field result">
+                <label for="txtRes">Result</label>
+                <div class="input-row">
+                    <input type="text" id="txtRes" readonly placeholder="Hex-encoded hash" spellcheck="false">
+                    <button type="button" class="btn" id="copyButton" disabled>Copy</button>
                 </div>
+                <p class="status" id="status" role="status" aria-live="polite"></p>
             </div>
-
-            <div class="form-group">
-                <div class="col-sm-4 col-sm-offset-2">
-                    <button type="submit" id="btnCalcWasm" class="btn btn-primary calculate">Calculate</button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Result</label>
-                <div class="col-sm-8">
-                    <input class="form-control" id="txtRes" rows="30" readonly></input>
-                </div>
-
-            </div>
-            <button class="col-sm-2 col-sm-offset-2 btn btn-secondary" id="copyButton">Copy</button>
         </form>
-    </div>
 
-    <script src="js/calc.js"></script>
+        <noscript>
+            <p class="status status--error">This calculator needs JavaScript and WebAssembly to run.</p>
+        </noscript>
+    </main>
+
+    <footer>
+        Nothing you type leaves this page. Hashing uses the
+        <a href="https://github.com/antelle/argon2-browser" rel="noopener">argon2-browser</a> WebAssembly build ·
+        <a href="https://github.com/Jeffreyhung/argon2" rel="noopener">Source</a>
+    </footer>
+
     <script src="js/main.js"></script>
-    <script src="js/text-encoder-lite.min.js"></script>
-
 </body>
 
 </html>
