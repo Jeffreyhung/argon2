@@ -27,9 +27,14 @@ python3 -m http.server 8000
 
 then open <http://localhost:8000>.
 
+## Offline
+
+The page registers a service worker (`sw.js`) that caches everything it needs on the first visit, so it keeps working without a network connection and can be installed as an app from the browser menu. Cached files are served first and refreshed in the background, so a new deploy shows up on the next visit. Bump the `CACHE` name in `sw.js` when the list of files changes.
+
 ## Layout
 
 - `index.html`, `css/app.css` – the page; no CSS or JS frameworks.
+- `sw.js` – service worker that precaches the page and the WebAssembly build for offline use.
 - `js/main.js` – form handling, copy button, worker management.
 - `js/worker.js` – Web Worker that runs the hash off the main thread.
 - `js/argon2-hasher.js` – loads the WebAssembly module and calls `argon2_hash_ext`; shared by the worker and the main-thread fallback.

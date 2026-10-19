@@ -275,4 +275,19 @@
     // Browsers restore form values on reload; start from the real defaults instead.
     applyDefaults();
     inputPass.focus();
+
+    // ---- Offline support ----
+
+    // Service workers only run in secure contexts (https, or localhost when
+    // developing). Register after the page has loaded so it does not compete
+    // with the first hash for bandwidth.
+    var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' ||
+        location.hostname === '[::1]';
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || isLocal)) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('sw.js').catch(function () {
+                // Offline support is optional; the page works without it.
+            });
+        });
+    }
 })();
